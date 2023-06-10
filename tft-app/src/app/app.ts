@@ -5,7 +5,9 @@ import {
   getChallengerMatches,
   getChallengerPlayers,
   getMatches,
+  getTFTJSON,
 } from "./services/riot";
+import { elimDuplicateMatchIds } from "./utils";
 
 export async function mongoConnect() {
   try {
@@ -52,6 +54,29 @@ const challengerPuuids = async () => {
 //   mongoose.connection.close();
 // });
 
+const getAllMatches = async () => {
+  await mongoConnect();
+  const players = await Player.find({});
+  let matches: string[] = [];
+  players.forEach((player: any) => {
+    matches = matches.concat(player.matches)
+  });
+  console.log(matches.length);
+  const fortyUniqueMatches = elimDuplicateMatchIds(matches).slice(0, 40);
+  console.log(fortyUniqueMatches.length);
+  mongoose.connection.close();
+};
+
+// getAllMatches();
+
+(async function() {
+  const data = await getTFTJSON();
+  console.log(data.sets["8"].traits);
+})();
+
+// **TODO**
+// 1. Refactor code into modules
+// 2. Helper functions: I.e. remove duplicate games: store in a hashmap or something of sorts
 
 // ------------------------
 // Uncomment this to put a new version of players in the db

@@ -23,6 +23,10 @@ const euwMatchesFromPuuid = (puuid: string, matchCount: number): string => {
   )}`;
 };
 
+const euwMatchFromMatchId = (matchId: string): string => {
+  return `${europeBaseUrl}/tft/match/v1/matches/${matchId}`;
+};
+
 // Returns the summoner ids of all EUW
 export const getChallengerPlayers = async () => {
   const { data } = await axios.get(euwChallengerPlayersUrl);
@@ -61,5 +65,17 @@ export const getChallengerMatches = async () => {
 
 export const getMatches = async (puuid: string): Promise<[]> => {
   const { data } = await axios.get(euwMatchesFromPuuid(puuid, 30));
+  return data;
+};
+
+export const getMatchById = async (matchId: string): Promise<[]> => {
+  const { data } = await axios.get(euwMatchFromMatchId(matchId));
+  return data;
+};
+
+export const getTFTJSON = async () => {
+  const { data } = await axios.get(
+    "https://raw.communitydragon.org/13.11/cdragon/tft/en_gb.json"
+  );
   return data;
 };

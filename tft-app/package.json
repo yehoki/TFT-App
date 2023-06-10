@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "riot": "ts-node src/app/services/riot.ts"
+    "riot": "ts-node src/app/services/riot.ts",
+    "app": "ts-node src/app/app.ts"
   },
   "dependencies": {
     "@types/node": "20.2.5",
